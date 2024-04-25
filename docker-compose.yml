@@ -1,4 +1,4 @@
-version: "3"
+version: "v2.26.1"
 services:
   web:
     image: "nginx:latest"
@@ -7,14 +7,18 @@ services:
     volumes:
       - "./src:/usr/share/nginx/html"
       - "./nginx/conf.d:/etc/nginx/conf.d"
+    links:
+      - "php8.2-fpm"
+    depends_on:
+      - "php8.2-fpm"
   mysql:
     image: "mysql:latest"
     environment:
       - "MYSQL_ROOT_PASSWORD=123456"
-      - "MYSQL_DATABASE=any"
+      - "MYSQL_DATABASE=anydb"
     volumes:
       - "./mysql/data:/var/lib/mysql"
-  php:
+  php8.2-fpm:
     image: "php:latest"
     links:
       - "mysql"
